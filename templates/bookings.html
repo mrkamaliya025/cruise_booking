@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Bookings</h1>
+
+
+<table>
+
+<tr>
+
+    <th>Reference</th>
+
+    <th>Customer</th>
+
+    <th>Ship</th>
+
+    <th>Destination</th>
+
+    <th>Departure</th>
+
+    <th>Passengers</th>
+
+    <th>Total</th>
+
+    <th>Status</th>
+
+</tr>
+
+
+{% for booking in bookings %}
+
+<tr>
+
+    <td>
+        {{ booking.order_reference }}
+    </td>
+
+    <td>
+        {{ booking.customer_name }}
+    </td>
+
+    <td>
+        {{ booking.ship }}
+    </td>
+
+    <td>
+        {{ booking.destination }}
+    </td>
+
+    <td>
+        {{ booking.departure_date }}
+    </td>
+
+    <td>
+        {{ booking.total_passengers }}
+    </td>
+
+    <td>
+        ${{ "%.2f"|format(booking.final_amount) }}
+    </td>
+
+    <td>
+        {{ booking.status }}
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

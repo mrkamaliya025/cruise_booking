@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Available Cruises</h1>
+
+
+{% for cruise in cruises %}
+
+<div class="card">
+
+    <h2>
+        {{ cruise.cruise_line }}
+    </h2>
+
+    <h3>
+        {{ cruise.ship }}
+    </h3>
+
+    <p>
+        <strong>Destination:</strong>
+        {{ cruise.destination }}
+    </p>
+
+    <p>
+        <strong>Departure:</strong>
+        {{ cruise.departure_date }}
+    </p>
+
+    <p>
+        <strong>Return:</strong>
+        {{ cruise.return_date }}
+    </p>
+
+    <p>
+        <strong>Nights:</strong>
+        {{ cruise.nights }}
+    </p>
+
+    <p>
+        <strong>Adult Fare:</strong>
+        ${{ "%.2f"|format(cruise.adult_fare) }}
+    </p>
+
+    <p>
+        <strong>Capacity Left:</strong>
+        {{ cruise.capacity_left }}
+    </p>
+
+    {% if cruise.capacity_left > 0 %}
+
+        <a
+            class="button"
+            href="/book/{{ cruise.departure_id }}"
+        >
+            Book Now
+        </a>
+
+    {% else %}
+
+        <strong>Sold Out</strong>
+
+    {% endif %}
+
+</div>
+
+{% else %}
+
+<p>No cruises available.</p>
+
+{% endfor %}
+
+{% endblock %}

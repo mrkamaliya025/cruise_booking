@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Booking Confirmed!</h1>
+
+
+<div class="card">
+
+    <h2>
+        Booking Reference:
+        {{ reference }}
+    </h2>
+
+    <p>
+        Customer:
+        {{ customer_name }}
+    </p>
+
+    <p>
+        Cruise:
+        {{ cruise.ship }}
+    </p>
+
+    <p>
+        Destination:
+        {{ cruise.destination }}
+    </p>
+
+</div>
+
+
+<h2>Price Breakdown</h2>
+
+
+<table>
+
+<tr>
+    <th>Description</th>
+    <th>Amount</th>
+</tr>
+
+
+<tr>
+    <td>Base Fare</td>
+
+    <td>
+        ${{ "%.2f"|format(price.base_fare) }}
+    </td>
+</tr>
+
+
+<tr>
+    <td>
+        Group Discount
+        ({{ price.group_rate }}%)
+    </td>
+
+    <td>
+        -${{ "%.2f"|format(price.group_discount) }}
+    </td>
+</tr>
+
+
+<tr>
+    <td>Promotion</td>
+
+    <td>
+        -${{ "%.2f"|format(price.promotion_discount) }}
+    </td>
+</tr>
+
+
+<tr>
+    <td>Optional Services</td>
+
+    <td>
+        ${{ "%.2f"|format(price.services_total) }}
+    </td>
+</tr>
+
+
+<tr>
+    <td>Subtotal</td>
+
+    <td>
+        ${{ "%.2f"|format(price.subtotal) }}
+    </td>
+</tr>
+
+
+<tr>
+    <td>Tax (12%)</td>
+
+    <td>
+        ${{ "%.2f"|format(price.tax_amount) }}
+    </td>
+</tr>
+
+
+<tr>
+    <th>FINAL TOTAL</th>
+
+    <th>
+        ${{ "%.2f"|format(price.final_amount) }}
+    </th>
+</tr>
+
+
+</table>
+
+
+<br>
+
+<a
+    class="button"
+    href="/cruises"
+>
+    Book Another Cruise
+</a>
+
+
+{% endblock %}

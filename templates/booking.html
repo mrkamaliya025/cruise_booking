@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Book Your Cruise</h1>
+
+
+<div class="card">
+
+    <h2>
+        {{ cruise.ship }}
+    </h2>
+
+    <p>
+        {{ cruise.cruise_line }}
+        -
+        {{ cruise.destination }}
+    </p>
+
+    <p>
+        {{ cruise.departure_date }}
+        to
+        {{ cruise.return_date }}
+    </p>
+
+    <p>
+        {{ cruise.nights }} nights
+    </p>
+
+    <p>
+        Adult fare:
+        ${{ "%.2f"|format(cruise.adult_fare) }}
+    </p>
+
+    <p>
+        Capacity left:
+        {{ cruise.capacity_left }}
+    </p>
+
+</div>
+
+
+<form method="POST">
+
+
+<h2>Customer Details</h2>
+
+<input
+    type="text"
+    name="customer_name"
+    placeholder="Full Name"
+    required
+>
+
+<br><br>
+
+<input
+    type="email"
+    name="customer_email"
+    placeholder="Email"
+    required
+>
+
+<br><br>
+
+<input
+    type="text"
+    name="customer_phone"
+    placeholder="Phone"
+>
+
+
+<h2>Passengers</h2>
+
+<p>
+Enter the age of each passenger.
+Maximum 6 passengers.
+</p>
+
+
+{% for i in range(1, 7) %}
+
+<div>
+
+    <label>
+        Passenger {{ i }} age:
+    </label>
+
+    <input
+        type="number"
+        name="age_{{ i }}"
+        min="0"
+        max="120"
+    >
+
+</div>
+
+{% endfor %}
+
+
+<h2>Optional Services</h2>
+
+
+{% for service in services %}
+
+<div>
+
+    <input
+        type="checkbox"
+        name="services"
+        value="{{ service.service_id }}"
+    >
+
+    <label>
+
+        {{ service.name }}
+
+        -
+        ${{ "%.2f"|format(service.price) }}
+
+        {% if service.pricing_type == "PER_PASSENGER_NIGHT" %}
+
+            per passenger/night
+
+        {% else %}
+
+            per passenger
+
+        {% endif %}
+
+    </label>
+
+</div>
+
+{% endfor %}
+
+
+<h2>Promotion Code</h2>
+
+<input
+    type="text"
+    name="promotion_code"
+    placeholder="Enter coupon code"
+>
+
+
+<br><br>
+
+<button
+    class="button"
+    type="submit"
+>
+    Confirm Booking
+</button>
+
+
+</form>
+
+{% if error %}
+
+<p class="error">
+    {{ error }}
+</p>
+
+{% endif %}
+
+{% endblock %}
