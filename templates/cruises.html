@@ -1,73 +1,350 @@
 {% extends "base.html" %}
 
+{% block title %}Available Cruises{% endblock %}
+
 {% block content %}
 
-<h1>Available Cruises</h1>
+<div class="cruise-page">
+
+    <!-- PAGE HEADER -->
+    <div class="cruise-page-header">
+        <div class="container">
+
+            <div>
+                <span class="page-eyebrow">CRUISE BOOKING</span>
+
+                <h1>Available Cruises</h1>
+
+                <p>
+                    Choose a cruise, compare prices and book your journey.
+                </p>
+            </div>
+
+            <div class="available-count">
+                <strong>{{ cruises|length }}</strong>
+                <span>cruises available</span>
+            </div>
+
+        </div>
+    </div>
 
 
-{% for cruise in cruises %}
+    <!-- SEARCH -->
+    <div class="container cruise-search-wrapper">
 
-<div class="card">
+        <div class="cruise-search">
 
-    <h2>
-        {{ cruise.cruise_line }}
-    </h2>
+            <div class="search-field">
+                <label>Search</label>
 
-    <h3>
-        {{ cruise.ship }}
-    </h3>
+                <input
+                    type="text"
+                    id="cruiseSearch"
+                    placeholder="Cruise line, ship or destination"
+                    onkeyup="filterCruises()"
+                >
+            </div>
 
-    <p>
-        <strong>Destination:</strong>
-        {{ cruise.destination }}
-    </p>
 
-    <p>
-        <strong>Departure:</strong>
-        {{ cruise.departure_date }}
-    </p>
+            <div class="search-field destination-field">
 
-    <p>
-        <strong>Return:</strong>
-        {{ cruise.return_date }}
-    </p>
+                <label>Destination</label>
 
-    <p>
-        <strong>Nights:</strong>
-        {{ cruise.nights }}
-    </p>
+                <select
+                    id="destinationFilter"
+                    onchange="filterCruises()"
+                >
+                    <option value="">All destinations</option>
 
-    <p>
-        <strong>Adult Fare:</strong>
-        ${{ "%.2f"|format(cruise.adult_fare) }}
-    </p>
+                    <option value="Caribbean">
+                        Caribbean
+                    </option>
 
-    <p>
-        <strong>Capacity Left:</strong>
-        {{ cruise.capacity_left }}
-    </p>
+                    <option value="Mediterranean">
+                        Mediterranean
+                    </option>
 
-    {% if cruise.capacity_left > 0 %}
+                    <option value="Alaska">
+                        Alaska
+                    </option>
 
-        <a
-            class="button"
-            href="/book/{{ cruise.departure_id }}"
+                    <option value="Northern Europe">
+                        Northern Europe
+                    </option>
+
+                    <option value="Bahamas">
+                        Bahamas
+                    </option>
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CRUISE LIST -->
+    <div class="container cruise-list">
+
+        {% if cruises %}
+
+        <div class="row g-4" id="cruiseList">
+
+            {% for cruise in cruises %}
+
+            <div
+                class="col-xl-4 col-lg-6 cruise-item"
+                data-search="
+                    {{ cruise.cruise_line }}
+                    {{ cruise.ship_name }}
+                    {{ cruise.destination }}
+                "
+                data-destination="{{ cruise.destination }}"
+            >
+
+                <div class="clean-cruise-card">
+
+                    <!-- TOP -->
+                    <div class="cruise-card-top">
+
+                        <div>
+                            <span class="cruise-line">
+                                {{ cruise.cruise_line }}
+                            </span>
+
+                            <h2>
+                                {{ cruise.ship_name }}
+                            </h2>
+                        </div>
+
+                        {% if cruise.capacity_left > 0 %}
+
+                        <span class="availability">
+                            Available
+                        </span>
+
+                        {% else %}
+
+                        <span class="sold-out">
+                            Sold out
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- DESTINATION -->
+
+                    <div class="destination-row">
+
+                        <span>Destination</span>
+
+                        <strong>
+                            {{ cruise.destination }}
+                        </strong>
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="cruise-meta">
+
+                        <div>
+                            <span>Departure</span>
+                            <strong>
+                                {{ cruise.departure_date }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Return</span>
+                            <strong>
+                                {{ cruise.return_date }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Duration</span>
+                            <strong>
+                                {{ cruise.nights }} nights
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOTTOM -->
+
+                    <div class="cruise-card-bottom">
+
+                        <div>
+
+                            <span class="price-label">
+                                Adult fare
+                            </span>
+
+                            <div class="cruise-price">
+                                ${{ "%.2f"|format(cruise.adult_fare) }}
+                            </div>
+
+                            <span class="price-note">
+                                per adult
+                            </span>
+
+                        </div>
+
+
+                        {% if cruise.capacity_left > 0 %}
+
+                        <a
+                            href="{{ url_for(
+                                'book',
+                                departure_id=cruise.departure_id
+                            ) }}"
+                            class="clean-book-button"
+                        >
+                            Book cruise
+                        </a>
+
+                        {% else %}
+
+                        <button
+                            class="clean-book-button disabled"
+                            disabled
+                        >
+                            Sold out
+                        </button>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- CAPACITY -->
+
+                    <div class="capacity-row">
+
+                        <span>
+                            Capacity remaining
+                        </span>
+
+                        <strong>
+                            {{ cruise.capacity_left }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div
+            id="noResults"
+            class="empty-state"
+            style="display:none;"
         >
-            Book Now
-        </a>
 
-    {% else %}
+            <h3>No cruises found</h3>
 
-        <strong>Sold Out</strong>
+            <p>
+                Try changing your search or destination.
+            </p>
 
-    {% endif %}
+        </div>
+
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <h3>No cruises available</h3>
+
+            <p>
+                Please check again later.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
 
 </div>
 
-{% else %}
 
-<p>No cruises available.</p>
+<script>
 
-{% endfor %}
+function filterCruises() {
+
+    const search =
+        document
+        .getElementById("cruiseSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const destination =
+        document
+        .getElementById("destinationFilter")
+        .value
+        .toLowerCase();
+
+
+    const cards =
+        document.querySelectorAll(".cruise-item");
+
+    let visible = 0;
+
+
+    cards.forEach(card => {
+
+        const text =
+            card
+            .getAttribute("data-search")
+            .toLowerCase();
+
+        const cardDestination =
+            card
+            .getAttribute("data-destination")
+            .toLowerCase();
+
+
+        const searchMatch =
+            text.includes(search);
+
+        const destinationMatch =
+            !destination ||
+            cardDestination === destination;
+
+
+        if (searchMatch && destinationMatch) {
+
+            card.style.display = "";
+
+            visible++;
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+
+    document.getElementById("noResults").style.display =
+        visible === 0 ? "block" : "none";
+
+}
+
+</script>
 
 {% endblock %}

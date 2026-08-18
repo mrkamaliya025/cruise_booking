@@ -1,15 +1,327 @@
 {% extends "base.html" %}
 
+{% block title %}
+CruiseBook | Explore the World
+{% endblock %}
+
+
 {% block content %}
 
-<h1>Cruise Holiday Booking</h1>
+<!-- ================= HERO ================= -->
 
-<p>
-    Find and book your perfect cruise holiday.
-</p>
+<section class="hero">
 
-<a class="button" href="/cruises">
-    Find Available Cruises
-</a>
+    <div class="container">
+
+        <div class="hero-content">
+
+            <div class="mb-3">
+                <span class="badge bg-warning text-dark px-3 py-2">
+                    🌊 YOUR JOURNEY STARTS HERE
+                </span>
+            </div>
+
+            <h1>
+                Explore the World<br>
+                <span style="color:#ffcf4a;">
+                    One Cruise at a Time
+                </span>
+            </h1>
+
+            <p>
+                Discover breathtaking destinations, luxurious ships,
+                unforgettable experiences and flexible travel options.
+            </p>
+
+            <div class="mt-4">
+
+                <a
+                    href="{{ url_for('cruises') }}"
+                    class="btn btn-cruise btn-lg"
+                >
+                    Explore Cruises →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DESTINATIONS ================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Popular Destinations
+            </h2>
+
+            <p class="section-subtitle">
+                Choose your next adventure
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <!-- Caribbean -->
+
+            <div class="col-md-4">
+
+                <div class="destination-card">
+
+                    <div class="destination-icon">
+                        🏝️
+                    </div>
+
+                    <h4>
+                        Caribbean
+                    </h4>
+
+                    <p>
+                        Tropical islands, crystal-clear waters
+                        and unforgettable beaches.
+                    </p>
+
+                    <a
+                        href="{{ url_for('cruises') }}"
+                        class="destination-link"
+                    >
+                        Explore →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Mediterranean -->
+
+            <div class="col-md-4">
+
+                <div class="destination-card">
+
+                    <div class="destination-icon">
+                        🌅
+                    </div>
+
+                    <h4>
+                        Mediterranean
+                    </h4>
+
+                    <p>
+                        Explore historic cities, beautiful
+                        coastlines and rich culture.
+                    </p>
+
+                    <a
+                        href="{{ url_for('cruises') }}"
+                        class="destination-link"
+                    >
+                        Explore →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Alaska -->
+
+            <div class="col-md-4">
+
+                <div class="destination-card">
+
+                    <div class="destination-icon">
+                        🏔️
+                    </div>
+
+                    <h4>
+                        Alaska
+                    </h4>
+
+                    <p>
+                        Experience glaciers, wildlife
+                        and breathtaking natural landscapes.
+                    </p>
+
+                    <a
+                        href="{{ url_for('cruises') }}"
+                        class="destination-link"
+                    >
+                        Explore →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= WHY CHOOSE US ================= -->
+
+<section class="why-section">
+
+    <div class="container">
+
+        <div class="text-center text-white mb-5">
+
+            <h2 class="section-title">
+                Why CruiseBook?
+            </h2>
+
+            <p>
+                Everything you need for a smooth cruise booking.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-md-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🚢
+                    </div>
+
+                    <h5>
+                        Multiple Cruises
+                    </h5>
+
+                    <p>
+                        Find cruises from leading cruise lines
+                        and destinations.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        💰
+                    </div>
+
+                    <h5>
+                        Transparent Pricing
+                    </h5>
+
+                    <p>
+                        See your complete price before
+                        confirming your booking.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🎫
+                    </div>
+
+                    <h5>
+                        Unique Reference
+                    </h5>
+
+                    <p>
+                        Receive a unique booking reference
+                        for every confirmed reservation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🧳
+                    </div>
+
+                    <h5>
+                        Extra Services
+                    </h5>
+
+                    <p>
+                        Add insurance, Wi-Fi and shore
+                        excursions to your trip.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CALL TO ACTION ================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <div>
+
+                <h2>
+                    Ready to sail?
+                </h2>
+
+                <p>
+                    Find your perfect cruise and start
+                    planning your next adventure.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('cruises') }}"
+                class="btn btn-cruise"
+            >
+                Find My Cruise →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
 
 {% endblock %}
