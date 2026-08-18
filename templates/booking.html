@@ -1,167 +1,716 @@
 {% extends "base.html" %}
 
+{% block title %}Book Cruise | CruiseBook{% endblock %}
+
 {% block content %}
 
-<h1>Book Your Cruise</h1>
+<div class="booking-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="booking-header">
+
+        <div class="container">
+
+            <span class="page-eyebrow">
+                CRUISEBOOK
+            </span>
+
+            <h1>Complete Your Booking</h1>
+
+            <p>
+                Enter passenger details and select any additional services.
+            </p>
+
+        </div>
+
+    </div>
 
 
-<div class="card">
+    <div class="container booking-container">
 
-    <h2>
-        {{ cruise.ship }}
-    </h2>
+        <form method="POST">
 
-    <p>
-        {{ cruise.cruise_line }}
-        -
-        {{ cruise.destination }}
-    </p>
 
-    <p>
-        {{ cruise.departure_date }}
-        to
-        {{ cruise.return_date }}
-    </p>
+            <div class="row g-4">
 
-    <p>
-        {{ cruise.nights }} nights
-    </p>
 
-    <p>
-        Adult fare:
-        ${{ "%.2f"|format(cruise.adult_fare) }}
-    </p>
+                <!-- =====================================
+                     LEFT SIDE
+                     ===================================== -->
 
-    <p>
-        Capacity left:
-        {{ cruise.capacity_left }}
-    </p>
+                <div class="col-lg-8">
+
+
+                    <!-- CRUISE SUMMARY -->
+
+                    <div class="booking-card">
+
+                        <div class="booking-card-title">
+
+                            <div>
+
+                                <span class="card-label">
+                                    SELECTED CRUISE
+                                </span>
+
+                                <h2>
+                                    {{ cruise.ship_name }}
+                                </h2>
+
+                                <p>
+                                    {{ cruise.cruise_line }}
+                                    ·
+                                    {{ cruise.destination }}
+                                </p>
+
+                            </div>
+
+                            <span class="available-tag">
+                                {{ cruise.capacity_left }}
+                                seats left
+                            </span>
+
+                        </div>
+
+
+                        <div class="trip-details">
+
+                            <div>
+
+                                <span>Departure</span>
+
+                                <strong>
+                                    {{ cruise.departure_date }}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>Return</span>
+
+                                <strong>
+                                    {{ cruise.return_date }}
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>Duration</span>
+
+                                <strong>
+                                    {{ cruise.nights }} nights
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>Adult fare</span>
+
+                                <strong>
+                                    ${{ "%.2f"|format(cruise.adult_fare) }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================
+                         CUSTOMER DETAILS
+                         ================================= -->
+
+                    <div class="booking-card">
+
+                        <div class="card-heading">
+
+                            <div class="step-number">
+                                1
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Customer Details
+                                </h3>
+
+                                <p>
+                                    Who should we contact about this booking?
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <div class="col-md-6">
+
+                                <label>
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="customer_name"
+                                    required
+                                    placeholder="Enter full name"
+                                >
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label>
+                                    Email Address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    name="customer_email"
+                                    required
+                                    placeholder="example@email.com"
+                                >
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label>
+                                    Phone Number
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="customer_phone"
+                                    placeholder="Enter phone number"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================
+                         PASSENGERS
+                         ================================= -->
+
+                    <div class="booking-card">
+
+                        <div class="card-heading">
+
+                            <div class="step-number">
+                                2
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Passengers
+                                </h3>
+
+                                <p>
+                                    Maximum 6 passengers per booking.
+                                    Adult: 18+ years.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div id="passenger-list">
+
+
+                            <!-- Passenger 1 -->
+
+                            <div class="passenger-row">
+
+                                <div class="passenger-number">
+                                    1
+                                </div>
+
+                                <div class="passenger-age">
+
+                                    <label>
+                                        Age
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        name="age_1"
+                                        min="0"
+                                        max="120"
+                                        required
+                                        placeholder="Age"
+                                    >
+
+                                </div>
+
+                                <div class="passenger-type">
+
+                                    <span>
+                                        Passenger
+                                    </span>
+
+                                    <strong
+                                        id="type_1"
+                                    >
+                                        Enter age
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="add-passenger"
+                            onclick="addPassenger()"
+                        >
+                            + Add passenger
+                        </button>
+
+                    </div>
+
+
+                    <!-- =================================
+                         OPTIONAL SERVICES
+                         ================================= -->
+
+                    <div class="booking-card">
+
+                        <div class="card-heading">
+
+                            <div class="step-number">
+                                3
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Optional Services
+                                </h3>
+
+                                <p>
+                                    Add extras to make your journey more comfortable.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="service-list">
+
+                            {% for service in services %}
+
+                            <label class="service-option">
+
+                                <input
+                                    type="checkbox"
+                                    name="services"
+                                    value="{{ service.service_id }}"
+                                >
+
+                                <div class="service-info">
+
+                                    <strong>
+                                        {{ service.service_name }}
+                                    </strong>
+
+                                    {% if service.service_name|lower == "wifi" %}
+
+                                    <span>
+                                        Per passenger per night
+                                    </span>
+
+                                    {% else %}
+
+                                    <span>
+                                        Per passenger
+                                    </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="service-price">
+
+                                    ${{ "%.2f"|format(service.price) }}
+
+                                </div>
+
+                            </label>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================
+                         PROMOTION
+                         ================================= -->
+
+                    <div class="booking-card">
+
+                        <div class="card-heading">
+
+                            <div class="step-number">
+                                4
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Promotional Code
+                                </h3>
+
+                                <p>
+                                    Have a valid promotional code?
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        {% if error %}
+
+                        <div class="booking-error">
+                            {{ error }}
+                        </div>
+
+                        {% endif %}
+
+
+                        <div class="promo-row">
+
+                            <input
+                                type="text"
+                                name="promotion_code"
+                                placeholder="Enter promotional code"
+                                value="{{ request.form.get('promotion_code', '') }}"
+                            >
+
+                            <button
+                                type="submit"
+                                class="promo-button"
+                            >
+                                Apply
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =====================================
+                     RIGHT SIDE
+                     ===================================== -->
+
+                <div class="col-lg-4">
+
+                    <div class="price-card">
+
+                        <div class="price-card-header">
+
+                            <span>
+                                BOOKING SUMMARY
+                            </span>
+
+                            <strong>
+                                {{ cruise.nights }} nights
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Adult fare
+                            </span>
+
+                            <strong>
+                                ${{ "%.2f"|format(cruise.adult_fare) }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Child fare
+                            </span>
+
+                            <span>
+                                Based on age
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Group discount
+                            </span>
+
+                            <span>
+                                Applied at checkout
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Optional services
+                            </span>
+
+                            <span>
+                                Selected below
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-divider"></div>
+
+
+                        <div class="summary-note">
+
+                            <strong>
+                                Pricing rules
+                            </strong>
+
+                            <ul>
+
+                                <li>
+                                    Ages 0–4: Free
+                                </li>
+
+                                <li>
+                                    Ages 5–11: 50% of adult fare
+                                </li>
+
+                                <li>
+                                    Ages 12–17: 70% of adult fare
+                                </li>
+
+                                <li>
+                                    Adults: 18+
+                                </li>
+
+                                <li>
+                                    Maximum 6 passengers
+                                </li>
+
+                                <li>
+                                    Tax: 12%
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="confirm-button"
+                        >
+                            Continue to Confirmation
+                        </button>
+
+
+                        <p class="secure-note">
+                            Your final price will be shown before
+                            the booking is confirmed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
 
 
-<form method="POST">
+<script>
+
+let passengerCount = 1;
 
 
-<h2>Customer Details</h2>
+/* ============================================
+   ADD PASSENGER
+   ============================================ */
 
-<input
-    type="text"
-    name="customer_name"
-    placeholder="Full Name"
-    required
->
+function addPassenger() {
 
-<br><br>
+    if (passengerCount >= 6) {
 
-<input
-    type="email"
-    name="customer_email"
-    placeholder="Email"
-    required
->
+        alert("Maximum 6 passengers allowed.");
 
-<br><br>
-
-<input
-    type="text"
-    name="customer_phone"
-    placeholder="Phone"
->
+        return;
+    }
 
 
-<h2>Passengers</h2>
-
-<p>
-Enter the age of each passenger.
-Maximum 6 passengers.
-</p>
+    passengerCount++;
 
 
-{% for i in range(1, 7) %}
-
-<div>
-
-    <label>
-        Passenger {{ i }} age:
-    </label>
-
-    <input
-        type="number"
-        name="age_{{ i }}"
-        min="0"
-        max="120"
-    >
-
-</div>
-
-{% endfor %}
+    const list =
+        document.getElementById(
+            "passenger-list"
+        );
 
 
-<h2>Optional Services</h2>
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "passenger-row";
 
 
-{% for service in services %}
+    row.innerHTML = `
 
-<div>
+        <div class="passenger-number">
+            ${passengerCount}
+        </div>
 
-    <input
-        type="checkbox"
-        name="services"
-        value="{{ service.service_id }}"
-    >
+        <div class="passenger-age">
 
-    <label>
+            <label>
+                Age
+            </label>
 
-        {{ service.name }}
+            <input
+                type="number"
+                name="age_${passengerCount}"
+                min="0"
+                max="120"
+                required
+                placeholder="Age"
+                oninput="updatePassengerType(
+                    this,
+                    ${passengerCount}
+                )"
+            >
 
-        -
-        ${{ "%.2f"|format(service.price) }}
+        </div>
 
-        {% if service.pricing_type == "PER_PASSENGER_NIGHT" %}
+        <div class="passenger-type">
 
-            per passenger/night
+            <span>
+                Passenger
+            </span>
 
-        {% else %}
+            <strong id="type_${passengerCount}">
+                Enter age
+            </strong>
 
-            per passenger
+        </div>
 
-        {% endif %}
-
-    </label>
-
-</div>
-
-{% endfor %}
-
-
-<h2>Promotion Code</h2>
-
-<input
-    type="text"
-    name="promotion_code"
-    placeholder="Enter coupon code"
->
-
-
-<br><br>
-
-<button
-    class="button"
-    type="submit"
->
-    Confirm Booking
-</button>
+    `;
 
 
-</form>
+    list.appendChild(row);
 
-{% if error %}
+}
 
-<p class="error">
-    {{ error }}
-</p>
 
-{% endif %}
+/* ============================================
+   PASSENGER TYPE
+   ============================================ */
+
+function updatePassengerType(
+    input,
+    number
+) {
+
+    const age =
+        parseInt(input.value);
+
+
+    const type =
+        document.getElementById(
+            "type_" + number
+        );
+
+
+    if (isNaN(age)) {
+
+        type.innerText =
+            "Enter age";
+
+        return;
+
+    }
+
+
+    if (age >= 18) {
+
+        type.innerText =
+            "Adult";
+
+    } else {
+
+        type.innerText =
+            "Child";
+
+    }
+
+}
+
+
+/* First passenger */
+
+document
+    .querySelector(
+        'input[name="age_1"]'
+    )
+    .addEventListener(
+        "input",
+        function() {
+
+            updatePassengerType(
+                this,
+                1
+            );
+
+        }
+    );
+
+</script>
 
 {% endblock %}
